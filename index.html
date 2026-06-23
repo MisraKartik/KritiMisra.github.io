@@ -40,12 +40,28 @@
         header {
             background-color: var(--navy);
             color: var(--cream);
-            padding: 2rem 0;
+            padding: 3rem 0 4rem 0;
             text-align: center;
             border-bottom: 4px solid var(--brass);
+            position: relative;
+            overflow: hidden;
         }
-        header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.2rem; }
-        header p { font-size: 1.1rem; color: var(--brass); letter-spacing: 1px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.2rem; position: relative; z-index: 2; }
+        header p { font-size: 1.1rem; color: var(--brass); letter-spacing: 1px; position: relative; z-index: 2; }
+
+        /* Supreme Court Silhouette Background Overlay */
+        .sc-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            height: 70px;
+            opacity: 0.08; /* Very subtle to maintain text readability */
+            pointer-events: none;
+            z-index: 1;
+        }
 
         nav {
             background-color: var(--navy);
@@ -99,15 +115,45 @@
         main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
 
         section {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
             opacity: 0;
             transform: translateY(18px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         section.in-view { opacity: 1; transform: translateY(0); }
-        section:last-of-type { border-bottom: none; }
+
+        /* Elegant Ashok Chakra Section Divider */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2.5rem auto;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .section-divider.in-view { opacity: 0.8; transform: translateY(0); }
+        .section-divider::before, .section-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to var(--direction, right), transparent, var(--brass));
+        }
+        .section-divider::after {
+            --direction: left;
+        }
+        .section-divider svg {
+            margin: 0 15px;
+            fill: var(--brass);
+            animation: rotateChakra 120s linear infinite; /* Optional very slow rotation */
+        }
+
+        @keyframes rotateChakra {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
         h2 {
             font-family: 'Playfair Display', serif;
@@ -226,8 +272,9 @@
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
-            section, section.in-view, nav a::after, #back-to-top { transition: none; }
-            section { opacity: 1; transform: none; }
+            section, section.in-view, .section-divider, nav a::after, #back-to-top { transition: none; }
+            section, .section-divider { opacity: 1; transform: none; }
+            .section-divider svg { animation: none; }
         }
 
         @media (max-width: 600px) {
@@ -256,6 +303,17 @@
     <header>
         <h1>Jane Doe, LL.M.</h1>
         <p>PhD Candidate in Law</p>
+        
+        <svg class="sc-silhouette" viewBox="0 0 500 70" preserveAspectRatio="xMidYMax meet">
+            <path d="M 150,70 L 350,70 L 350,65 L 340,65 L 340,55 L 325,55 L 325,48 L 310,48 L 310,43 C 310,43 300,18 250,18 C 200,18 190,43 190,43 L 190,48 L 175,48 L 175,55 L 160,55 L 160,65 L 150,65 Z" fill="#C5A059"/>
+            <rect x="247" y="5" width="6" height="14" fill="#C5A059"/>
+            <circle cx="250" cy="4" r="3" fill="#C5A059"/>
+            <line x1="210" y1="43" x2="210" y2="48" stroke="#1A2436" stroke-width="2"/>
+            <line x1="230" y1="43" x2="230" y2="48" stroke="#1A2436" stroke-width="2"/>
+            <line x1="250" y1="43" x2="250" y2="48" stroke="#1A2436" stroke-width="2"/>
+            <line x1="270" y1="43" x2="270" y2="48" stroke="#1A2436" stroke-width="2"/>
+            <line x1="290" y1="43" x2="290" y2="48" stroke="#1A2436" stroke-width="2"/>
+        </svg>
     </header>
 
     <nav>
@@ -287,6 +345,15 @@
             </div>
         </section>
 
+        <div class="section-divider">
+            <svg width="28" height="28" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93 M7 12 L17 12 M12 7 L12 17" stroke="currentColor" stroke-width="0.6"/>
+                <path d="M8.46 8.46 L15.54 15.54 M8.46 15.54 L15.54 8.46" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+        </div>
+
         <section id="research">
             <h2>Research Interests</h2>
             <ul class="academic-list">
@@ -295,6 +362,15 @@
                 <li><strong>Legal History:</strong> Tracing the historical development of [Specific Legal Doctrine].</li>
             </ul>
         </section>
+
+        <div class="section-divider">
+            <svg width="28" height="28" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93 M7 12 L17 12 M12 7 L12 17" stroke="currentColor" stroke-width="0.6"/>
+                <path d="M8.46 8.46 L15.54 15.54 M8.46 15.54 L15.54 8.46" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+        </div>
 
         <section id="publications">
             <h2>Publications</h2>
@@ -312,13 +388,22 @@
                     <div class="pub-row">
                         <div class="pub-text">
                             <span class="title">"Title of Your Second Article or Book Chapter"</span><br>
-                            In <span class="journal">Handbook of Modern Jurisprudence</span>, edited by X. Author (Oxford University Press, 2024).
+                            <span class="journal">Handbook of Modern Jurisprudence</span>, edited by X. Author (Oxford University Press, 2024).
                         </div>
                         <button class="copy-cite-btn" data-citation="Jane Doe, Title of Your Second Article or Book Chapter, in Handbook of Modern Jurisprudence (X. Author ed., Oxford Univ. Press 2024).">Copy Citation</button>
                     </div>
                 </li>
             </ul>
         </section>
+
+        <div class="section-divider">
+            <svg width="28" height="28" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93 M7 12 L17 12 M12 7 L12 17" stroke="currentColor" stroke-width="0.6"/>
+                <path d="M8.46 8.46 L15.54 15.54 M8.46 15.54 L15.54 8.46" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+        </div>
 
         <section id="working-papers">
             <h2>Working Papers</h2>
@@ -327,7 +412,7 @@
                     <div class="pub-row">
                         <div class="pub-text">
                             <span class="title">"Working Title: The Future of [Legal Concept]"</span><br>
-                            Draft available upon request. Presented at the [Name of Conference], 2026.
+                            <span class="draft-info">Draft available upon request. Presented at the [Name of Conference], 2026.</span>
                         </div>
                         <button class="copy-cite-btn" data-citation="Jane Doe, The Future of [Legal Concept] (2026) (unpublished manuscript) (on file with author).">Copy Citation</button>
                     </div>
@@ -344,6 +429,15 @@
             </ul>
         </section>
 
+        <div class="section-divider">
+            <svg width="28" height="28" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93 M7 12 L17 12 M12 7 L12 17" stroke="currentColor" stroke-width="0.6"/>
+                <path d="M8.46 8.46 L15.54 15.54 M8.46 15.54 L15.54 8.46" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+        </div>
+
         <section id="teaching">
             <h2>Teaching</h2>
             <ul class="academic-list">
@@ -358,12 +452,30 @@
             </ul>
         </section>
 
+        <div class="section-divider">
+            <svg width="28" height="28" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93 M7 12 L17 12 M12 7 L12 17" stroke="currentColor" stroke-width="0.6"/>
+                <path d="M8.46 8.46 L15.54 15.54 M8.46 15.54 L15.54 8.46" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+        </div>
+
         <section id="cv">
             <h2>Curriculum Vitae</h2>
             <p>For a comprehensive overview of my academic background, publications, and awards, please download my full CV.</p>
             <br>
             <a href="Jane_Doe_CV.pdf" class="btn-cv" download>Download CV (PDF)</a>
         </section>
+
+        <div class="section-divider">
+            <svg width="28" height="28" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93 M7 12 L17 12 M12 7 L12 17" stroke="currentColor" stroke-width="0.6"/>
+                <path d="M8.46 8.46 L15.54 15.54 M8.46 15.54 L15.54 8.46" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+        </div>
 
         <section id="contact">
             <h2>Contact</h2>
@@ -426,7 +538,8 @@
         }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
         sections.forEach(sec => spyObserver.observe(sec));
 
-        // Reveal-on-scroll animation
+        // Reveal-on-scroll animation for sections and dividers
+        const dividers = document.querySelectorAll('.section-divider');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -436,6 +549,7 @@
             });
         }, { threshold: 0.15 });
         sections.forEach(sec => revealObserver.observe(sec));
+        dividers.forEach(div => revealObserver.observe(div));
 
         // Back to top button
         const backToTop = document.getElementById('back-to-top');
@@ -453,7 +567,6 @@
                 try {
                     await navigator.clipboard.writeText(citation);
                 } catch (e) {
-                    // Fallback: select text via temporary textarea
                     const ta = document.createElement('textarea');
                     ta.value = citation;
                     document.body.appendChild(ta);
