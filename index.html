@@ -17,12 +17,23 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        
+
         body {
             font-family: 'Lato', sans-serif;
             background-color: var(--cream);
             color: var(--text);
             line-height: 1.6;
+        }
+
+        /* Scroll progress bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: var(--brass);
+            z-index: 1000;
+            transition: width 0.1s linear;
         }
 
         /* Header & Navigation */
@@ -35,7 +46,7 @@
         }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.2rem; }
         header p { font-size: 1.1rem; color: var(--brass); letter-spacing: 1px; }
-        
+
         nav {
             background-color: var(--navy);
             padding: 1rem 0;
@@ -44,7 +55,9 @@
             z-index: 100;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; }
+        .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: none; color: var(--brass); font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; }
+        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; flex: 1; }
         nav a {
             color: var(--cream);
             text-decoration: none;
@@ -53,15 +66,49 @@
             font-size: 0.85rem;
             letter-spacing: 1px;
             transition: color 0.3s;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: var(--brass);
+            transition: width 0.25s ease;
         }
         nav a:hover { color: var(--brass); }
+        nav a.active { color: var(--brass); }
+        nav a.active::after { width: 100%; }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 2px solid var(--brass);
+            color: var(--brass);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.4rem 0.7rem;
+            cursor: pointer;
+            font-weight: 700;
+        }
 
         /* Main Content */
         main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
-        
-        section { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--light-gray); }
+
+        section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        section.in-view { opacity: 1; transform: translateY(0); }
         section:last-of-type { border-bottom: none; }
-        
+
         h2 {
             font-family: 'Playfair Display', serif;
             color: var(--navy);
@@ -75,8 +122,8 @@
         /* About Section */
         .about-container { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
         .profile-pic {
-            width: 200px; height: 200px; 
-            background-color: var(--light-gray); 
+            width: 200px; height: 200px;
+            background-color: var(--light-gray);
             border: 3px solid var(--brass);
             border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
@@ -87,10 +134,36 @@
 
         /* Lists & Links */
         ul.academic-list { list-style: none; padding: 0; }
-        ul.academic-list li { margin-bottom: 1.5rem; }
+        ul.academic-list li {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1.1rem;
+            border-left: 2px solid var(--light-gray);
+            transition: border-color 0.25s ease, padding-left 0.25s ease;
+        }
+        ul.academic-list li:hover { border-left-color: var(--brass); padding-left: 1.4rem; }
         ul.academic-list .title { font-weight: 700; color: var(--navy); }
         ul.academic-list .journal { font-style: italic; color: var(--burgundy); }
-        
+
+        .pub-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .pub-text { flex: 1; min-width: 220px; }
+
+        .copy-cite-btn {
+            background: var(--cream);
+            border: 1px solid var(--brass);
+            color: var(--navy);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 700;
+            padding: 0.35rem 0.65rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+        .copy-cite-btn:hover { background: var(--burgundy); color: var(--cream); border-color: var(--burgundy); }
+        .copy-cite-btn.copied { background: var(--navy); color: var(--brass); border-color: var(--navy); }
+
         a { color: var(--burgundy); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
@@ -104,8 +177,42 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s;
+            cursor: pointer;
         }
         .btn-cv:hover { background-color: var(--burgundy); text-decoration: none; border-color: var(--burgundy); }
+
+        .copy-email-btn {
+            background: none;
+            border: none;
+            color: var(--burgundy);
+            text-decoration: underline;
+            font-family: inherit;
+            font-size: inherit;
+            cursor: pointer;
+            padding: 0;
+        }
+        .copy-email-btn.copied { color: var(--navy); font-weight: 700; text-decoration: none; }
+
+        /* Back to top */
+        #back-to-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 44px;
+            height: 44px;
+            background: var(--navy);
+            border: 2px solid var(--brass);
+            color: var(--brass);
+            font-size: 1.1rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 200;
+        }
+        #back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top:hover { background: var(--burgundy); }
 
         /* Footer */
         footer {
@@ -117,13 +224,34 @@
             border-top: 4px solid var(--brass);
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            section, section.in-view, nav a::after, #back-to-top { transition: none; }
+            section { opacity: 1; transform: none; }
+        }
+
         @media (max-width: 600px) {
             .about-container { flex-direction: column; align-items: center; text-align: center; }
-            nav ul { gap: 1rem; }
+            .nav-inner { flex-wrap: wrap; }
+            .nav-brand { display: block; }
+            .nav-toggle { display: inline-block; }
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            nav ul.open { max-height: 320px; }
+            nav ul li { width: 100%; text-align: center; padding: 0.6rem 0; }
+            nav a::after { display: none; }
         }
     </style>
 </head>
 <body>
+
+    <div id="scroll-progress"></div>
 
     <header>
         <h1>Jane Doe, LL.M.</h1>
@@ -131,15 +259,19 @@
     </header>
 
     <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#research">Research</a></li>
-            <li><a href="#publications">Publications</a></li>
-            <li><a href="#working-papers">Working Papers</a></li>
-            <li><a href="#teaching">Teaching</a></li>
-            <li><a href="#cv">CV</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="nav-inner">
+            <span class="nav-brand">J. Doe</span>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList">Menu</button>
+            <ul id="navList">
+                <li><a href="#about" data-section="about">About</a></li>
+                <li><a href="#research" data-section="research">Research</a></li>
+                <li><a href="#publications" data-section="publications">Publications</a></li>
+                <li><a href="#working-papers" data-section="working-papers">Working Papers</a></li>
+                <li><a href="#teaching" data-section="teaching">Teaching</a></li>
+                <li><a href="#cv" data-section="cv">CV</a></li>
+                <li><a href="#contact" data-section="contact">Contact</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main>
@@ -168,12 +300,22 @@
             <h2>Publications</h2>
             <ul class="academic-list">
                 <li>
-                    <span class="title">"Title of Your First Peer-Reviewed Article"</span><br>
-                    <span class="journal">Journal of Legal Studies</span>, Vol. 45, Issue 2 (2025): 112-134.
+                    <div class="pub-row">
+                        <div class="pub-text">
+                            <span class="title">"Title of Your First Peer-Reviewed Article"</span><br>
+                            <span class="journal">Journal of Legal Studies</span>, Vol. 45, Issue 2 (2025): 112-134.
+                        </div>
+                        <button class="copy-cite-btn" data-citation="Jane Doe, Title of Your First Peer-Reviewed Article, 45 J. Legal Stud. 112 (2025).">Copy Citation</button>
+                    </div>
                 </li>
                 <li>
-                    <span class="title">"Title of Your Second Article or Book Chapter"</span><br>
-                    In <span class="journal">Handbook of Modern Jurisprudence</span>, edited by X. Author (Oxford University Press, 2024).
+                    <div class="pub-row">
+                        <div class="pub-text">
+                            <span class="title">"Title of Your Second Article or Book Chapter"</span><br>
+                            In <span class="journal">Handbook of Modern Jurisprudence</span>, edited by X. Author (Oxford University Press, 2024).
+                        </div>
+                        <button class="copy-cite-btn" data-citation="Jane Doe, Title of Your Second Article or Book Chapter, in Handbook of Modern Jurisprudence (X. Author ed., Oxford Univ. Press 2024).">Copy Citation</button>
+                    </div>
                 </li>
             </ul>
         </section>
@@ -182,12 +324,22 @@
             <h2>Working Papers</h2>
             <ul class="academic-list">
                 <li>
-                    <span class="title">"Working Title: The Future of [Legal Concept]"</span><br>
-                    Draft available upon request. Presented at the [Name of Conference], 2026.
+                    <div class="pub-row">
+                        <div class="pub-text">
+                            <span class="title">"Working Title: The Future of [Legal Concept]"</span><br>
+                            Draft available upon request. Presented at the [Name of Conference], 2026.
+                        </div>
+                        <button class="copy-cite-btn" data-citation="Jane Doe, The Future of [Legal Concept] (2026) (unpublished manuscript) (on file with author).">Copy Citation</button>
+                    </div>
                 </li>
                 <li>
-                    <span class="title">"Working Title: Rethinking [Legal Doctrine] in the Digital Age"</span><br>
-                    Under review at <span class="journal">[Name of Law Review]</span>.
+                    <div class="pub-row">
+                        <div class="pub-text">
+                            <span class="title">"Working Title: Rethinking [Legal Doctrine] in the Digital Age"</span><br>
+                            Under review at <span class="journal">[Name of Law Review]</span>.
+                        </div>
+                        <button class="copy-cite-btn" data-citation="Jane Doe, Rethinking [Legal Doctrine] in the Digital Age (2026) (unpublished manuscript) (on file with author).">Copy Citation</button>
+                    </div>
                 </li>
             </ul>
         </section>
@@ -215,20 +367,134 @@
 
         <section id="contact">
             <h2>Contact</h2>
-            <p><strong>Email:</strong> <a href="mailto:jane.doe@university.edu">jane.doe@university.edu</a></p>
+            <p><strong>Email:</strong> <button class="copy-email-btn" data-email="jane.doe@university.edu">jane.doe@university.edu</button></p>
             <p><strong>Office:</strong> Room 404, Faculty of Law Building, [University Name]</p>
-            <p><strong>Academic Profiles:</strong> 
-                <a href="#">SSRN</a> | 
-                <a href="#">ResearchGate</a> | 
-                <a href="#">LinkedIn</a> | 
+            <p><strong>Academic Profiles:</strong>
+                <a href="#">SSRN</a> |
+                <a href="#">ResearchGate</a> |
+                <a href="#">LinkedIn</a> |
                 <a href="#">ORCID</a>
             </p>
         </section>
     </main>
 
+    <button id="back-to-top" aria-label="Back to top">&#8593;</button>
+
     <footer>
         <p>&copy; 2026 Jane Doe. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Scroll progress bar
+        const progressBar = document.getElementById('scroll-progress');
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+        }
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navList = document.getElementById('navList');
+        navToggle.addEventListener('click', () => {
+            const isOpen = navList.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+            navToggle.textContent = isOpen ? 'Close' : 'Menu';
+        });
+        navList.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.textContent = 'Menu';
+            });
+        });
+
+        // Scrollspy: highlight active nav link
+        const sections = document.querySelectorAll('main section');
+        const navLinks = document.querySelectorAll('nav a');
+        const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const active = document.querySelector(`nav a[data-section="${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+        sections.forEach(sec => spyObserver.observe(sec));
+
+        // Reveal-on-scroll animation
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        sections.forEach(sec => revealObserver.observe(sec));
+
+        // Back to top button
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('show', window.scrollY > 400);
+        }, { passive: true });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Copy citation buttons
+        document.querySelectorAll('.copy-cite-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const citation = btn.getAttribute('data-citation');
+                try {
+                    await navigator.clipboard.writeText(citation);
+                } catch (e) {
+                    // Fallback: select text via temporary textarea
+                    const ta = document.createElement('textarea');
+                    ta.value = citation;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                const original = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.classList.remove('copied');
+                }, 1800);
+            });
+        });
+
+        // Copy email button
+        document.querySelectorAll('.copy-email-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const email = btn.getAttribute('data-email');
+                try {
+                    await navigator.clipboard.writeText(email);
+                } catch (e) {
+                    const ta = document.createElement('textarea');
+                    ta.value = email;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                }
+                const original = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.classList.remove('copied');
+                }, 1800);
+            });
+        });
+    </script>
 
 </body>
 </html>
