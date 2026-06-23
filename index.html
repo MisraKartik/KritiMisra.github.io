@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Jane Doe | PhD Candidate in Law</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FDFBF7;
+            --navy: #1A2436;
+            --burgundy: #7A1F1F;
+            --brass: #C5A059;
+            --text: #333333;
+            --light-gray: #EAEAEA;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--navy);
+            color: var(--cream);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 4px solid var(--brass);
+        }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.2rem; }
+        header p { font-size: 1.1rem; color: var(--brass); letter-spacing: 1px; }
+        
+        nav {
+            background-color: var(--navy);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; }
+        nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--brass); }
+
+        /* Main Content */
+        main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+        
+        section { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--light-gray); }
+        section:last-of-type { border-bottom: none; }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--burgundy);
+            display: inline-block;
+        }
+
+        /* About Section */
+        .about-container { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
+        .profile-pic {
+            width: 200px; height: 200px; 
+            background-color: var(--light-gray); 
+            border: 3px solid var(--brass);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            color: #888; font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .about-text { flex: 1; min-width: 250px; }
+
+        /* Lists & Links */
+        ul.academic-list { list-style: none; padding: 0; }
+        ul.academic-list li { margin-bottom: 1.5rem; }
+        ul.academic-list .title { font-weight: 700; color: var(--navy); }
+        ul.academic-list .journal { font-style: italic; color: var(--burgundy); }
+        
+        a { color: var(--burgundy); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .btn-cv {
+            display: inline-block;
+            background-color: var(--navy);
+            color: var(--cream);
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--brass);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .btn-cv:hover { background-color: var(--burgundy); text-decoration: none; border-color: var(--burgundy); }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy);
+            color: var(--cream);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            border-top: 4px solid var(--brass);
+        }
+
+        @media (max-width: 600px) {
+            .about-container { flex-direction: column; align-items: center; text-align: center; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Jane Doe, LL.M.</h1>
+        <p>PhD Candidate in Law</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#publications">Publications</a></li>
+            <li><a href="#working-papers">Working Papers</a></li>
+            <li><a href="#teaching">Teaching</a></li>
+            <li><a href="#cv">CV</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about">
+            <h2>About</h2>
+            <div class="about-container">
+                <div class="profile-pic">Your Photo Here</div>
+                <div class="about-text">
+                    <p>I am a PhD Candidate in Law at [University Name], specializing in [Your Specialization, e.g., Constitutional Law and Legal Theory]. My research explores the intersection of [Topic A] and [Topic B], with a focus on how historical legal frameworks adapt to modern challenges.</p>
+                    <br>
+                    <p>Prior to my doctoral studies, I obtained my LL.M. from [University] and my JD/LLB from [University]. I am currently supervised by Prof. [Name] and expect to defend my dissertation in [Year].</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="research">
+            <h2>Research Interests</h2>
+            <ul class="academic-list">
+                <li><strong>Jurisprudence & Legal Theory:</strong> Examining the philosophical foundations of [Specific Topic].</li>
+                <li><strong>Constitutional Law:</strong> Analyzing the evolution of [Specific Right/Clause] in comparative perspectives.</li>
+                <li><strong>Legal History:</strong> Tracing the historical development of [Specific Legal Doctrine].</li>
+            </ul>
+        </section>
+
+        <section id="publications">
+            <h2>Publications</h2>
+            <ul class="academic-list">
+                <li>
+                    <span class="title">"Title of Your First Peer-Reviewed Article"</span><br>
+                    <span class="journal">Journal of Legal Studies</span>, Vol. 45, Issue 2 (2025): 112-134.
+                </li>
+                <li>
+                    <span class="title">"Title of Your Second Article or Book Chapter"</span><br>
+                    In <span class="journal">Handbook of Modern Jurisprudence</span>, edited by X. Author (Oxford University Press, 2024).
+                </li>
+            </ul>
+        </section>
+
+        <section id="working-papers">
+            <h2>Working Papers</h2>
+            <ul class="academic-list">
+                <li>
+                    <span class="title">"Working Title: The Future of [Legal Concept]"</span><br>
+                    Draft available upon request. Presented at the [Name of Conference], 2026.
+                </li>
+                <li>
+                    <span class="title">"Working Title: Rethinking [Legal Doctrine] in the Digital Age"</span><br>
+                    Under review at <span class="journal">[Name of Law Review]</span>.
+                </li>
+            </ul>
+        </section>
+
+        <section id="teaching">
+            <h2>Teaching</h2>
+            <ul class="academic-list">
+                <li>
+                    <span class="title">Guest Lecturer, Advanced Constitutional Law</span><br>
+                    [University Name], Spring 2026
+                </li>
+                <li>
+                    <span class="title">Teaching Assistant, Introduction to Jurisprudence</span><br>
+                    [University Name], Fall 2024 & Spring 2025
+                </li>
+            </ul>
+        </section>
+
+        <section id="cv">
+            <h2>Curriculum Vitae</h2>
+            <p>For a comprehensive overview of my academic background, publications, and awards, please download my full CV.</p>
+            <br>
+            <a href="Jane_Doe_CV.pdf" class="btn-cv" download>Download CV (PDF)</a>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p><strong>Email:</strong> <a href="mailto:jane.doe@university.edu">jane.doe@university.edu</a></p>
+            <p><strong>Office:</strong> Room 404, Faculty of Law Building, [University Name]</p>
+            <p><strong>Academic Profiles:</strong> 
+                <a href="#">SSRN</a> | 
+                <a href="#">ResearchGate</a> | 
+                <a href="#">LinkedIn</a> | 
+                <a href="#">ORCID</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Jane Doe. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
